@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теория: Условный оператор Python</title>
+    
+    <!-- Подключаем подсветку синтаксиса -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #1e293b;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header h1 { font-size: 2.8em; margin-bottom: 5px; color: white; }
+        header p { opacity: 0.9; font-weight: 600; font-size:1.6em;color: blue; }
+
+        /* Карточки теории */
+        .theory-card {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .theory-card:hover { transform: translateY(-3px); }
+
+        .theory-card h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .theory-card h3 { color: #475569; margin-top: 25px; font-size: 1.2em; }
+        p { margin-bottom: 15px; }
+        ul { margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Блоки кода */
+        pre {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        /* Схема (блок-схема на CSS) */
+        .schema-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        .schema-box {
+            border: 2px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: #f8fafc;
+            text-align: center;
+            margin: 5px;
+            min-width: 150px;
+        }
+        .schema-diamond {
+            transform: rotate(45deg);
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--warning);
+            background: #fffbeb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+        .schema-diamond span {
+            transform: rotate(-45deg);
+            font-size: 12px;
+            color: #92400e;
+            font-weight: bold;
+        }
+        .arrow-down {
+            font-size: 24px;
+            color: #64748b;
+            line-height: 0.5;
+        }
+
+        /* Примечания */
+        .note-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .note-box strong { color: #d97706; }
+
+        .danger-box {
+            background: #fef2f2;
+            border-left: 5px solid var(--danger);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .danger-box strong { color: #dc2626; }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 5px solid var(--success);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success-box strong { color: #16a34a; }
+
+        /* Таблица операторов */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: center;
+        }
+        th { background-color: #f1f5f9; color: var(--primary); }
+        td code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }
+.back-btn {
+    position: fixed; /* Фиксированная позиция */
+    top: 20px;
+    left: 20px;
+    z-index: 9999; /* Поверх всех элементов */
+    
+    /* Стеклянный стиль */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Оформление текста */
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+/* Дополнительный класс для выделения класса */
+        .grade-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body>
+<!-- Кнопка возврата на главную -->
+<a href="index.html" class="back-btn">
+    <span>&larr;</span> На главную
+</a>
+
+<div class="container">
+    <header>
+	<div class="grade-badge">Информатика • 8 класс</div>
+        <h1>Условный оператор</h1>
+        <p>Учим программу принимать решения</p>
+    </header>
+
+    <!-- 1. Введение -->
+    <div class="theory-card">
+        <h2>1. Зачем нужны условия?</h2>
+        <p>До этого момента все наши программы выполнялись <strong>линейно</strong> — сверху вниз, строчка за строчкой. Но в жизни мы часто делаем выбор: "Если идет дождь, беру зонт, иначе иду без зонта".</p>
+        <p>В программировании для этого используется <strong>условный оператор</strong> (<code>if</code>). Он позволяет программе выполнять разные блоки кода в зависимости от выполнения условия.</p>
+        
+        <div class="schema-container">
+            <div class="schema-box">Начало программы</div>
+            <div class="arrow-down">↓</div>
+            <div class="schema-diamond"><span>Условие?</span></div>
+            <div style="display: flex; gap: 50px; margin-top: 10px;">
+                <div style="text-align: center;">
+                    <div style="color: var(--success); font-weight: bold;">Да (True)</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="schema-box" style="border-color: var(--success);">Действие 1</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: var(--danger); font-weight: bold;">Нет (False)</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="schema-box" style="border-color: var(--danger);">Действие 2</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Оператор if (если) -->
+    <div class="theory-card">
+        <h2>2. Оператор <code>if</code> (Если)</h2>
+        <p>Самый простой вариант ветвления. Код внутри блока <code>if</code> выполняется, только если условие истинно.</p>
+
+        <h3>Синтаксис:</h3>
+        <pre><code class="language-python">if условие:
+    # блок кода (обязательно с отступом!)
+    команда_1
+    команда_2
+# Код после блока (без отступа)</code></pre>
+
+        <div class="note-box">
+            <strong>Правило отступов:</strong> Python использует отступы (обычно 4 пробела или 1 Tab), чтобы понять, какие строки относятся к условию. Если отступа нет — команда выполнится в любом случае!
+        </div>
+
+        <h3>Пример:</h3>
+        <pre><code class="language-python">age = int(input("Введите возраст: "))
+
+if age >= 18:
+    print("Вы взрослый!")
+
+print("Проверка завершена") # Эта строка выполнится всегда</code></pre>
+    </div>
+
+    <!-- 3. Оператор else (иначе) -->
+    <div class="theory-card">
+        <h2>3. Оператор <code>else</code> (Иначе)</h2>
+        <p>Используется вместе с <code>if</code>. Блок <code>else</code> выполняется, если условие в <code>if</code> оказалось ложным.</p>
+
+        <h3>Синтаксис:</h3>
+        <pre><code class="language-python">if условие:
+    # Делаем что-то, если условие ВЕРНО
+else:
+    # Делаем что-то другое, если условие НЕВЕРНО</code></pre>
+
+        <h3>Пример: Проверка пароля</h3>
+        <pre><code class="language-python">password = input("Введите пароль: ")
+
+if password == "12345":
+    print("Доступ разрешен")
+else:
+    print("Неверный пароль! Доступ запрещен.")</code></pre>
+    </div>
+
+    <!-- 4. Оператор elif (иначе если) -->
+    <div class="theory-card">
+        <h2>4. Оператор <code>elif</code> (Иначе если)</h2>
+        <p>Если нужно проверить несколько условий подряд, используется <code>elif</code>. Это сокращение от <strong>else if</strong>.</p>
+        <p>Программа проверяет условия сверху вниз. Как только находит верное, она выполняет его блок и <strong>останавливает проверку</strong>.</p>
+
+        <h3>Пример: Оценка по баллам</h3>
+        <pre><code class="language-python">score = int(input("Введите балл (0-100): "))
+
+if score >= 90:
+    print("Оценка: Отлично (5)")
+elif score >= 70:
+    print("Оценка: Хорошо (4)")
+elif score >= 50:
+    print("Оценка: Удовлетворительно (3)")
+else:
+    print("Оценка: Неудовлетворительно (2)")</code></pre>
+        
+        <div class="success-box">
+            <strong>Важно:</strong> В этом примере, если пользователь введет 95, сработает первое условие, а остальные будут пропущены.
+        </div>
+    </div>
+
+    <!-- 5. Операторы сравнения -->
+    <div class="theory-card">
+        <h2>5. Операторы сравнения</h2>
+        <p>В условиях мы сравниваем значения. Результат сравнения — это логическое значение <code>True</code> (Истина) или <code>False</code> (Ложь).</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Оператор</th>
+                    <th>Значение</th>
+                    <th>Пример</th>
+                    <th>Результат</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>==</code></td>
+                    <td>Равно (сравнение!)</td>
+                    <td>5 == 5</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code>!=</code></td>
+                    <td>Не равно</td>
+                    <td>5 != 3</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code>></code></td>
+                    <td>Больше</td>
+                    <td>10 > 5</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code><</code></td>
+                    <td>Меньше</td>
+                    <td>5 < 3</td>
+                    <td>False</td>
+                </tr>
+                <tr>
+                    <td><code>>=</code></td>
+                    <td>Больше или равно</td>
+                    <td>5 >= 5</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code><=</code></td>
+                    <td>Меньше или равно</td>
+                    <td>4 <= 3</td>
+                    <td>False</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="danger-box">
+            <strong>Частая ошибка:</strong> Не путайте оператор присваивания <code>=</code> (a = 5) и оператор сравнения <code>==</code> (if a == 5).
+            В условиях всегда используйте двойное равно!
+        </div>
+    </div>
+
+    <!-- 6. Логические операторы -->
+    <div class="theory-card">
+        <h2>6. Логические операторы</h2>
+        <p>Иногда нужно проверить несколько условий сразу.</p>
+
+        <ul>
+            <li><code>and</code> — логическое <strong>И</strong>. Возвращает True, если <strong>оба</strong> условия верны.</li>
+            <li><code>or</code> — логическое <strong>ИЛИ</strong>. Возвращает True, если <strong>хотя бы одно</strong> условие верно.</li>
+            <li><code>not</code> — логическое <strong>НЕ</strong>. Меняет значение на противоположное (True на False).</li>
+        </ul>
+
+        <h3>Пример с <code>and</code>:</h3>
+        <p>Проверка доступа: возраст от 18 И есть паспорт.</p>
+        <pre><code class="language-python">age = int(input("Возраст: "))
+has_passport = input("Есть паспорт? (да/нет): ")
+
+if age >= 18 and has_passport == "да":
+    print("Доступ разрешен")
+else:
+    print("Доступ запрещен")</code></pre>
+
+        <h3>Пример с <code>or</code>:</h3>
+        <p>Выходной: Суббота ИЛИ Воскресенье.</p>
+        <pre><code class="language-python">day = input("День недели: ")
+
+if day == "Суббота" or day == "Воскресенье":
+    print("Ура, выходной!")
+else:
+    print("Рабочий день")</code></pre>
+    </div>
+
+    <!-- 7. Вложенные условия -->
+    <div class="theory-card">
+        <h2>7. Вложенные условия</h2>
+        <p>Условия можно вкладывать друг в друга, как матрешки. Это используется для сложных проверок.</p>
+
+        <pre><code class="language-python">age = int(input("Возраст: "))
+
+if age >= 18:
+    print("Вам 18 или больше")
+    
+    # Вложенное условие
+    if age >= 60:
+        print("Вы пенсионер")
+    else:
+        print("Вы еще работаете")
+        
+else:
+    print("Вы несовершеннолетний")</code></pre>
+        
+        <div class="note-box">
+            <strong>Совет:</strong> Старайтесь не делать больше 2-3 уровней вложенности, иначе код становится трудным для чтения. Лучше использовать <code>elif</code>.
+        </div>
+    </div>
+
+</div>
+<center>
+<p> МКОУ Северная средняя школа<br>Ятис В. В.<br>2026 г.</p>
+</center>
+</body>
+</html>

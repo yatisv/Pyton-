@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информатика 8 класс: Основы Python</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+         body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header h1 { font-size: 3.8em; margin-bottom: 5px; color: white; }
+        header p { opacity: 0.9; font-weight: 600; font-size:1.6em;color: blue; }
+        
+        /* Дополнительный класс для выделения класса */
+        .grade-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        /* Карточка модуля (Раздела) */
+        .module-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .module-number {
+            background: var(--primary);
+            color: white;
+            font-size: 1.5em;
+            font-weight: 800;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .module-title {
+            font-size: 1.8em;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        /* Сетка кнопок внутри модуля */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Ссылки-кнопки */
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .action-btn span.icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .action-btn span.label {
+            font-size: 1em;
+        }
+
+        /* Цвета кнопок */
+        .btn-theory {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+        }
+        .btn-practice {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+        .btn-test {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+/* Запрет выделения текста на странице */
+body {
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Стандартный синтаксис */
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="grade-badge">Информатика • 8 класс</div><hr>
+        <h1>Основы PYTHON</h1>
+        <p>Интерактивный учебный курс по изучению основ Python </p><hr>
+    </header>
+
+    <!-- МОДУЛЬ 1: Ввод и вывод -->
+    <div class="module-card">
+        <div class="module-header">
+            <div class="module-number">01</div>
+            <h2 class="module-title">Ввод, вывод данных. Арифметика в Python.</h2>
+        </div>
+        <div class="module-grid">
+            <a href="theory_basics.html" class="action-btn btn-theory">
+                <span class="icon">📚</span>
+                <span class="label">Теория</span>
+            </a>
+            <a href="practice_basics.html" class="action-btn btn-practice">
+                <span class="icon">💻</span>
+                <span class="label">Практика</span>
+            </a>
+            <a href="test_io.html" class="action-btn btn-test">
+                <span class="icon">📝</span>
+                <span class="label">Тест</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- МОДУЛЬ 2: Условный оператор -->
+    <div class="module-card">
+        <div class="module-header">
+            <div class="module-number">02</div>
+            <h2 class="module-title">Условный оператор (if). Операторы сравнения</h2>
+        </div>
+        <div class="module-grid">
+            <a href="theory_if.html" class="action-btn btn-theory">
+                <span class="icon">📚</span>
+                <span class="label">Теория</span>
+            </a>
+            <a href="practice_if.html" class="action-btn btn-practice">
+                <span class="icon">💻</span>
+                <span class="label">Практика</span>
+            </a>
+            <a href="test_if.html" class="action-btn btn-test">
+                <span class="icon">📝</span>
+                <span class="label">Тест</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- МОДУЛЬ 3: Цикл FOR -->
+    <div class="module-card">
+        <div class="module-header">
+            <div class="module-number">03</div>
+            <h2 class="module-title">Цикл FOR. Функция range()</h2>
+        </div>
+        <div class="module-grid">
+            <a href="theory_for.html" class="action-btn btn-theory">
+                <span class="icon">📚</span>
+                <span class="label">Теория</span>
+            </a>
+            <a href="practice_for.html" class="action-btn btn-practice">
+                <span class="icon">💻</span>
+                <span class="label">Практика</span>
+            </a>
+            <a href="test_for.html" class="action-btn btn-test">
+                <span class="icon">📝</span>
+                <span class="label">Тест</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- МОДУЛЬ 4: Цикл WHILE -->
+    <div class="module-card">
+        <div class="module-header">
+            <div class="module-number">04</div>
+            <h2 class="module-title">Цикл WHILE. Цикл с предусловием.</h2>
+        </div>
+        <div class="module-grid">
+            <a href="theory_while.html" class="action-btn btn-theory">
+                <span class="icon">📚</span>
+                <span class="label">Теория</span>
+            </a>
+            <a href="practice_while.html" class="action-btn btn-practice">
+                <span class="icon">💻</span>
+                <span class="label">Практика</span>
+            </a>
+            <a href="test_while.html" class="action-btn btn-test">
+                <span class="icon">📝</span>
+                <span class="label">Тест</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- МОДУЛЬ 5: Строки -->
+    <div class="module-card">
+        <div class="module-header">
+            <div class="module-number">05</div>
+            <h2 class="module-title">Строки. Индексация и срезы.</h2>
+        </div>
+        <div class="module-grid">
+            <a href="theory_strings.html" class="action-btn btn-theory">
+                <span class="icon">📚</span>
+                <span class="label">Теория</span>
+            </a>
+            <a href="practice_strings.html" class="action-btn btn-practice">
+                <span class="icon">💻</span>
+                <span class="label">Практика</span>
+            </a>
+            <a href="test_strings.html" class="action-btn btn-test">
+                <span class="icon">📝</span>
+                <span class="label">Тест</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script> document.addEventListener('contextmenu', event => event.preventDefault());</script>
+<center>
+<p> МКОУ Северная средняя школа<br>Ятис В. В.<br>2026 г.</p>
+</center>
+</body>
+</html>

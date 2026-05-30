@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теория: Основы Python</title>
+    
+    <!-- Подключаем подсветку синтаксиса -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --bg: #f3f4f6;
+            --code-bg: #1e293b;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header h1 { font-size: 3.6em; margin-bottom: 5px; color: white; }
+        header p { opacity: 1.2; font-weight: 600; font-size:1.6em;color: blue; }
+
+        /* Карточки теории */
+        .theory-card {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .theory-card:hover { transform: translateY(-3px); }
+
+        .theory-card h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .theory-card h3 { color: #475569; margin-top: 20px; }
+        p { margin-bottom: 15px; }
+        ul { margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Блоки кода */
+        pre {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace;color:green; }
+
+        /* Таблица операторов */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: center;
+        }
+        th { background-color: #f1f5f9; color: var(--primary); }
+        td:first-child, td:last-child { font-family: 'Consolas', monospace; font-weight: bold; color: #1e293b; }
+
+        /* Важное примечание */
+        .note-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .note-box strong { color: #d97706; }
+		/* --- Кнопка "На главную" --- */
+.back-btn {
+    position: fixed; /* Фиксированная позиция */
+    top: 20px;
+    left: 20px;
+    z-index: 9999; /* Поверх всех элементов */
+    
+    /* Стеклянный стиль */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Оформление текста */
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+/* Дополнительный класс для выделения класса */
+        .grade-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body>
+<!-- Кнопка возврата на главную -->
+<a href="index.html" class="back-btn">
+    <span>&larr;</span> На главную
+</a>
+<div class="container">
+    <header>
+	<div class="grade-badge">Информатика • 8 класс</div>
+        <h1>Основы Python</h1>
+        <p>Ввод, вывод, переменные и арифметика</p>
+    </header>
+
+    <!-- 1. Ввод данных -->
+    <div class="theory-card">
+        <h2>1. Ввод данных (input)</h2>
+        <p>Чтобы программа могла общаться с пользователем, нужно научить её слушать. В Python для этого используется функция <code>input()</code>.</p>
+        
+        <h3>Как это работает:</h3>
+        <p>Когда программа доходит до строчки с <code>input()</code>, она останавливается и ждет, пока пользователь что-нибудь напечатает и нажмет Enter.</p>
+        
+        <pre><code class="language-python"># Простое приветствие
+name = input("Как вас зовут? ")
+print("Привет, " + name + "!")</code></pre>
+
+        <div class="note-box">
+            <strong>Важно:</strong> Функция <code>input()</code> всегда возвращает <strong>строку</strong> (тип данных <code>str</code>), даже если вы ввели число.
+        </div>
+
+        <h3>Ввод чисел</h3>
+        <p>Если вам нужно ввести число для математических вычислений, строку нужно преобразовать в число.</p>
+        <pre><code class="language-python"># Преобразование в целое число
+age_str = input("Сколько вам лет? ")
+age = int(age_str) # Или сразу: int(input(...))
+
+# Преобразование в дробное число
+price = float(input("Введите цену: "))</code></pre>
+    </div>
+
+    <!-- 2. Вывод данных -->
+    <div class="theory-card">
+        <h2>2. Вывод данных (print)</h2>
+        <p>Чтобы программа показала результат, используется функция <code>print()</code>. Она выводит информацию на экран.</p>
+
+        <h3>Способы вывода:</h3>
+        
+        <p><strong>1. Вывод текста (строки):</strong></p>
+        <pre><code class="language-python">print("Hello, World!")
+print('Можно использовать одинарные кавычки')</code></pre>
+
+        <p><strong>2. Вывод нескольких значений (через запятую):</strong></p>
+        <p>Запятая автоматически добавляет пробел между элементами.</p>
+        <pre><code class="language-python">name = "Анна"
+age = 17
+print("Имя:", name, "Возраст:", age)</code></pre>
+
+        <p><strong>3. F-строки (форматированные строки):</strong></p>
+        <p>Самый удобный способ вывода. Перед кавычками ставится буква <code>f</code>, а переменные берутся в фигурные скобки <code>{}</code>.</p>
+        <pre><code class="language-python">city = "Москва"
+print(f"Я живу в городе {city}")</code></pre>
+    </div>
+
+    <!-- 3. Переменные и типы данных -->
+    <div class="theory-card">
+        <h2>3. Переменные и типы данных</h2>
+        <p>Переменная — это именованная ячейка в памяти компьютера, где хранятся данные.</p>
+
+        <h3>Основные типы данных:</h3>
+        <ul>
+            <li><code>int</code> — целые числа (например: 5, -12, 1000).</li>
+            <li><code>float</code> — вещественные (дробные) числа (например: 3.14, -0.5, 2.0).</li>
+            <li><code>str</code> — строки, текст (например: "Привет", "123").</li>
+            <li><code>bool</code> — логический тип (True или False).</li>
+        </ul>
+
+        <pre><code class="language-python">a = 10        # int
+b = 2.5       # float
+c = "Школа"   # str
+d = True      # bool
+
+# Узнать тип переменной можно функцией type()
+print(type(a)) # Выведет: &lt;class 'int'&gt;</code></pre>
+    </div>
+
+    <!-- 4. Арифметика -->
+    <div class="theory-card">
+        <h2>4. Арифметические операции</h2>
+        <p>Python умеет выполнять все стандартные математические операции.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Знак</th>
+                    <th>Операция</th>
+                    <th>Пример</th>
+                    <th>Результат</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>+</td>
+                    <td>Сложение</td>
+                    <td>5 + 3</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                    <td>Вычитание</td>
+                    <td>10 - 4</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>*</td>
+                    <td>Умножение</td>
+                    <td>3 * 4</td>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <td>/</td>
+                    <td>Деление (обычное)</td>
+                    <td>7 / 2</td>
+                    <td>3.5 (всегда float!)</td>
+                </tr>
+                <tr>
+                    <td>//</td>
+                    <td>Целочисленное деление</td>
+                    <td>7 // 2</td>
+                    <td>3 (отбрасывает остаток)</td>
+                </tr>
+                <tr>
+                    <td>%</td>
+                    <td>Остаток от деления</td>
+                    <td>7 % 2</td>
+                    <td>1 (то, что осталось)</td>
+                </tr>
+                <tr>
+                    <td>**</td>
+                    <td>Возведение в степень</td>
+                    <td>2 ** 3</td>
+                    <td>8</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note-box">
+            <strong>Приоритет операций:</strong> Сначала выполняются действия в скобках, затем возведение в степень, затем умножение/деление, и в конце сложение/вычитание.
+        </div>
+    </div>
+</div>
+<center>
+<p> МКОУ Северная средняя школа<br>Ятис В. В.<br>2026 г.</p>
+</center>
+</body>
+</html>

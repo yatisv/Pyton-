@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теория: Цикл WHILE в Python</title>
+    
+     
+   <!-- Подключаем подсветку синтаксиса -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #1e293b;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+         header h1 { font-size: 2.8em; margin-bottom: 5px; color: white; }
+        header p { opacity: 0.9; font-weight: 600; font-size:1.6em;color: blue; }
+
+        /* Стеклянные карточки */
+        .theory-card {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .theory-card:hover { transform: translateY(-3px); }
+
+        .theory-card h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .theory-card h3 { color: #475569; margin-top: 25px; font-size: 1.2em; }
+        p { margin-bottom: 15px; }
+        ul { margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Блоки кода */
+        pre {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        /* Примечания */
+        .note-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .note-box strong { color: #d97706; }
+
+        .danger-box {
+            background: #fef2f2;
+            border-left: 5px solid var(--danger);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .danger-box strong { color: #dc2626; }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 5px solid var(--success);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success-box strong { color: #16a34a; }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: center;
+        }
+        th { background-color: #f1f5f9; color: var(--primary); }
+        td code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }
+	/* --- Кнопка "На главную" --- */
+.back-btn {
+    position: fixed; /* Фиксированная позиция */
+    top: 20px;
+    left: 20px;
+    z-index: 9999; /* Поверх всех элементов */
+    
+    /* Стеклянный стиль */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Оформление текста */
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+/* Дополнительный класс для выделения класса */
+        .grade-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body>
+<!-- Кнопка возврата на главную -->
+<a href="index.html" class="back-btn">
+    <span>&larr;</span> На главную
+</a>
+<div class="container">
+    <header>
+	<div class="grade-badge">Информатика • 8 класс</div>
+        <h1>Цикл WHILE</h1>
+        <p>Цикл с условием</p>
+    </header>
+
+    <!-- 1. Введение -->
+    <div class="theory-card">
+        <h2>1. Что такое цикл while?</h2>
+        <p><strong>Цикл while</strong> (цикл "пока") выполняет блок кода до тех пор, пока истинно проверяемое условие. В отличие от цикла <code>for</code>, он не требует знания точного количества итераций заранее.</p>
+        
+        <div class="note-box">
+            <strong>Определение:</strong> <strong>while</strong> — это цикл с предусловием. Это значит, что условие проверяется <em>перед</em> каждым выполнением тела цикла.
+        </div>
+
+        <h3>Когда использовать?</h3>
+        <ul>
+            <li>Когда количество повторений заранее неизвестно.</li>
+            <li>Когда мы ждем наступления определенного события (например, ввода числа 0).</li>
+            <li>При работе с интерактивными программами.</li>
+        </ul>
+    </div>
+
+    <!-- 2. Синтаксис -->
+    <div class="theory-card">
+        <h2>2. Синтаксис цикла while</h2>
+        
+        <h3>Общая структура:</h3>
+        <pre><code class="language-python">while условие:
+    # Тело цикла
+    команда_1
+    команда_2</code></pre>
+
+        <h3>Основные элементы:</h3>
+        <ul>
+            <li><strong>while</strong> — ключевое слово.</li>
+            <li><strong>Условие</strong> — логическое выражение (True/False).</li>
+            <li><strong>Двоеточие (:)</strong> — обязательный символ.</li>
+            <li><strong>Тело цикла</strong> — команды с отступом, которые повторяются.</li>
+        </ul>
+    </div>
+
+    <!-- 3. Логика работы -->
+    <div class="theory-card">
+        <h2>3. Логика работы (Пошагово)</h2>
+        <ol>
+            <li>Python проверяет <strong>Условие</strong>.</li>
+            <li>Если условие истинно (<strong>True</strong>), выполняется тело цикла.</li>
+            <li>После выполнения тела цикла Python возвращается к проверке условия (шаг 1).</li>
+            <li>Если условие ложно (<strong>False</strong>), цикл завершается, и программа идет дальше.</li>
+        </ol>
+
+        <h3>Пример: Обратный отсчет</h3>
+        <pre><code class="language-python">i = 5
+while i > 0:
+    print(i)
+    i = i - 1 # Важно: изменяем переменную!
+print("Пуск!")</code></pre>
+    </div>
+
+    <!-- 4. Ввод до стоп-слова -->
+    <div class="theory-card">
+        <h2>4. Типичная задача: Ввод до стоп-сигнала</h2>
+        <p>Частая задача: программа должна читать числа, пока пользователь не введет 0.</p>
+
+        <pre><code class="language-python">total = 0
+number = int(input("Введите число: "))
+
+while number != 0:
+    total += number
+    number = int(input("Введите число: "))
+
+print("Сумма:", total)</code></pre>
+
+        <div class="success-box">
+            <strong>Схема работы:</strong>
+            1. Считываем первое число <em>до</em> цикла.<br>
+            2. Пока число не равно 0, добавляем его к сумме и считываем следующее.<br>
+            3. Как только введен 0, условие <code>number != 0</code> становится False, цикл останавливается.
+        </div>
+    </div>
+
+    <!-- 5. Бесконечный цикл -->
+    <div class="theory-card">
+        <h2>5. Бесконечный цикл</h2>
+        <p>Если условие в <code>while</code> никогда не станет ложным, цикл будет работать бесконечно. Это часто является ошибкой.</p>
+
+        <div class="danger-box">
+            <strong>Пример ошибки:</strong>
+            <pre><code class="language-python">x = 5
+while x > 0:
+    print(x)
+    # Забыли написать x = x - 1
+# Этот цикл будет печатать 5 бесконечно!</code></pre>
+        </div>
+
+        <h3>Как остановить?</h3>
+        <p>В среде разработки нажмите <strong>Ctrl+C</strong> или кнопку "Stop", чтобы принудительно прервать программу.</p>
+
+        <h3>Полезный бесконечный цикл</h3>
+        <p>Иногда бесконечный цикл создают намеренно (например, для игры или меню), а выход делают через <code>break</code>.</p>
+        <pre><code class="language-python">while True:
+    answer = input("Введите 'exit' для выхода: ")
+    if answer == "exit":
+        break
+    print("Вы ввели:", answer)</code></pre>
+    </div>
+
+    <!-- 6. Сравнение FOR и WHILE -->
+    <div class="theory-card">
+        <h2>6. Сравнение: FOR vs WHILE</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Характеристика</th>
+                    <th>Цикл FOR</th>
+                    <th>Цикл WHILE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Когда используем</strong></td>
+                    <td>Когда точно знаем количество повторений (или перебираем последовательность).</td>
+                    <td>Когда количество повторений неизвестно заранее, зависит от условия.</td>
+                </tr>
+                <tr>
+                    <td><strong>Пример</strong></td>
+                    <td>Вывести числа от 1 до 100.</td>
+                    <td>Читать числа, пока не встретится 0.</td>
+                </tr>
+                <tr>
+                    <td><strong>Опасность</strong></td>
+                    <td>Меньше риск "зацикливания".</td>
+                    <td>Высокий риск бесконечного цикла, если забыть изменить переменную.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 7. Типичные ошибки -->
+    <div class="theory-card">
+        <h2>7. Типичные ошибки</h2>
+
+        <div class="danger-box">
+            <strong>1. Забыли изменить переменную условия</strong>
+            <p>Самая частая ошибка. Переменная, участвующая в условии, должна меняться внутри цикла.</p>
+        </div>
+
+        <div class="danger-box">
+            <strong>2. Условие сразу ложно</strong>
+            <p>Если условие ложно с самого начала, тело цикла не выполнится ни разу.</p>
+            <pre><code class="language-python">x = 0
+while x > 0:
+    print("Никогда не напечатается")</code></pre>
+        </div>
+
+        <div class="danger-box">
+            <strong>3. Путаница с операторами</strong>
+            <p>Использование <code>=</code> (присваивание) вместо <code>==</code> (сравнение) в условии вызовет ошибку SyntaxError.</p>
+        </div>
+    </div>
+
+</div>
+<center>
+<p> МКОУ Северная средняя школа<br>Ятис В. В.<br>2026 г.</p>
+</center>
+</body>
+</html>

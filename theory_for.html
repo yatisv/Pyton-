@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теория: Цикл FOR в Python</title>
+    
+    <!-- Подключаем подсветку синтаксиса -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #1e293b;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+       body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header h1 { font-size: 2.8em; margin-bottom: 5px; color: white; }
+        header p { opacity: 0.9; font-weight: 600; font-size:1.6em;color: blue; }
+
+        /* Стеклянные карточки */
+        .theory-card {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .theory-card:hover { transform: translateY(-3px); }
+
+        .theory-card h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .theory-card h3 { color: #475569; margin-top: 25px; font-size: 1.2em; }
+        p { margin-bottom: 15px; }
+        ul { margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Блоки кода */
+        pre {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace;color:green; }
+
+        /* Примечания (выделение определений) */
+        .note-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .note-box strong { color: #d97706; }
+
+        .danger-box {
+            background: #fef2f2;
+            border-left: 5px solid var(--danger);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .danger-box strong { color: #dc2626; }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 5px solid var(--success);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success-box strong { color: #16a34a; }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: center;
+        }
+        th { background-color: #f1f5f9; color: var(--primary); }
+        td code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }
+		/* --- Кнопка "На главную" --- */
+.back-btn {
+    position: fixed; /* Фиксированная позиция */
+    top: 20px;
+    left: 20px;
+    z-index: 9999; /* Поверх всех элементов */
+    
+    /* Стеклянный стиль */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Оформление текста */
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+/* Дополнительный класс для выделения класса */
+        .grade-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body>
+<!-- Кнопка возврата на главную -->
+<a href="index.html" class="back-btn">
+    <span>&larr;</span> На главную
+</a>
+<div class="container">
+    <header>
+	<div class="grade-badge">Информатика • 8 класс</div>
+        <h1>Цикл FOR</h1>
+        <p>Учим программу повторять действия</p>
+    </header>
+
+    <!-- 1. Введение -->
+    <div class="theory-card">
+        <h2>1. Что такое цикл?</h2>
+        <p><strong>Цикл</strong> — это конструкция, которая позволяет выполнять одну и ту же последовательность команд многократно.</p>
+        
+        <div class="note-box">
+            <strong>Определение:</strong> Цикл <code>for</code> в Python часто называют "циклом со счетчиком" или "циклом перебора". Он используется, когда количество повторений заранее известно или когда нужно перебрать все элементы последовательности.
+        </div>
+
+        <h3>Пример задачи:</h3>
+        <p>Вместо написания 5 строк <code>print("Привет")</code>, мы пишем одну конструкцию цикла.</p>
+    </div>
+
+    <!-- 2. Синтаксис -->
+    <div class="theory-card">
+        <h2>2. Синтаксис цикла for</h2>
+        
+        <h3>Общая структура:</h3>
+        <pre><code class="language-python">for переменная in последовательность:
+    # Тело цикла (действия)
+    команда_1
+    команда_2</code></pre>
+
+        <h3>Основные элементы:</h3>
+        <ul>
+            <li><strong>for</strong> — ключевое слово, открывающее цикл.</li>
+            <li><strong>переменная</strong> — счетчик (например, <code>i</code>), который принимает текущее значение.</li>
+            <li><strong>in</strong> — связывает переменную с последовательностью.</li>
+            <li><strong>Двоеточие (:)</strong> — обязательный знак конца заголовка.</li>
+            <li><strong>Отступ</strong> — все команды внутри цикла сдвигаются вправо (обычно 4 пробела).</li>
+        </ul>
+    </div>
+
+    <!-- 3. Функция range() -->
+    <div class="theory-card">
+        <h2>3. Функция range() — генератор чисел</h2>
+        <p><strong>Функция <code>range()</code></strong> используется для генерации последовательности целых чисел. Это основной инструмент для работы цикла <code>for</code> заданное количество раз.</p>
+
+        <h3>Вариант 1: range(stop) — от 0 до N-1</h3>
+        <p>Генерирует числа от 0 до указанного числа <strong>не включительно</strong>.</p>
+        <pre><code class="language-python">for i in range(5):
+    print(i)
+# Вывод: 0, 1, 2, 3, 4
+# Обратите внимание: цифры 5 НЕТ в выводе!</code></pre>
+
+        <div class="danger-box">
+            <strong>Правило левой границы:</strong> Python начинает отсчет с 0. Поэтому <code>range(5)</code> дает 5 чисел: 0, 1, 2, 3, 4.
+        </div>
+
+        <h3>Вариант 2: range(start, stop) — от A до B-1</h3>
+        <p>Генерирует числа от начального до конечного (не включая конечное).</p>
+        <pre><code class="language-python">for i in range(1, 6):
+    print(i)
+# Вывод: 1, 2, 3, 4, 5</code></pre>
+
+        <h3>Вариант 3: range(start, stop, step) — с шагом</h3>
+        <p>Третий параметр задает шаг изменения счетчика.</p>
+        <pre><code class="language-python"># Вывод четных чисел от 0 до 10
+for i in range(0, 11, 2):
+    print(i)
+# Вывод: 0, 2, 4, 6, 8, 10</code></pre>
+
+        <h3>Обратный отсчет (отрицательный шаг)</h3>
+        <pre><code class="language-python">for i in range(5, 0, -1):
+    print(i)
+# Вывод: 5, 4, 3, 2, 1</code></pre>
+    </div>
+
+    <!-- 4. Накопление суммы -->
+    <div class="theory-card">
+        <h2>4. Алгоритм накопления суммы</h2>
+        <p>Циклы часто используют для подсчета суммы чисел. Для этого перед циклом создают специальную переменную — <strong>аккумулятор</strong> (накопитель).</p>
+
+        <h3>Пример: Сумма чисел от 1 до N</h3>
+        <pre><code class="language-python">n = int(input("Введите число N: "))
+total_sum = 0 # Инициализация аккумулятора
+
+for i in range(1, n + 1):
+    total_sum = total_sum + i # Добавляем i к сумме
+
+print("Сумма:", total_sum)</code></pre>
+
+        <div class="success-box">
+            <strong>Как это работает:</strong> На каждом шаге цикла переменная <code>total_sum</code> увеличивается на значение <code>i</code>. В конце цикла она содержит итоговую сумму.
+        </div>
+    </div>
+
+    <!-- 5. Операторы break и continue -->
+    <div class="theory-card">
+        <h2>5. Управление циклом: break и continue</h2>
+
+        <h3>Оператор break (Прерывание)</h3>
+        <p><strong>break</strong> — команда, которая мгновенно останавливает выполнение цикла. Программа переходит к коду после цикла.</p>
+        <pre><code class="language-python">for i in range(100):
+    if i == 5:
+        print("Нашли 5! Стоп.")
+        break
+    print(i)</code></pre>
+
+        <h3>Оператор continue (Продолжение)</h3>
+        <p><strong>continue</strong> — команда, которая пропускает оставшиеся команды в текущем шаге цикла и переходит сразу к следующему шагу.</p>
+        <pre><code class="language-python"># Выводим числа от 0 до 5, пропуская 3
+for i in range(6):
+    if i == 3:
+        continue
+    print(i)
+# Вывод: 0, 1, 2, 4, 5</code></pre>
+    </div>
+
+    <!-- 6. Типичные ошибки -->
+    <div class="theory-card">
+        <h2>6. Типичные ошибки</h2>
+
+        <div class="danger-box">
+            <strong>1. Забыли двоеточие</strong>
+            <pre><code class="language-python">for i in range(5) # SyntaxError!
+    print(i)</code></pre>
+        </div>
+
+        <div class="danger-box">
+            <strong>2. Ошибка в границах range()</strong>
+            <p>Путают, что верхняя граница не включается. Чтобы перебрать числа от 1 до 10, нужно писать <code>range(1, 11)</code>, а не <code>range(1, 10)</code>.</p>
+        </div>
+
+        <div class="danger-box">
+            <strong>3. Изменение переменной цикла внутри</strong>
+            <p>В Python переменная цикла (например, <code>i</code>) автоматически обновляется на каждом шаге. Если вы попытаетесь изменить её вручную внутри цикла (например, <code>i = i + 5</code>), это не повлияет на количество итераций.</p>
+        </div>
+    </div>
+
+</div>
+<center>
+<p> МКОУ Северная средняя школа<br>Ятис В. В.<br>2026 г.</p>
+</center>
+
+</body>
+</html>

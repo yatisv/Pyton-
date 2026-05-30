@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теория: Строки в Python</title>
+    
+    <!-- Подключаем подсветку синтаксиса -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #1e293b;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+       header h1 { font-size: 2.8em; margin-bottom: 5px; color: white; }
+        header p { opacity: 0.9; font-weight: 600; font-size:1.6em;color: blue; }
+
+        /* Стеклянные карточки */
+        .theory-card {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .theory-card:hover { transform: translateY(-3px); }
+
+        .theory-card h2 {
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .theory-card h3 { color: #475569; margin-top: 25px; font-size: 1.2em; }
+        p { margin-bottom: 15px; }
+        ul { margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Блоки кода */
+        pre {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        /* Примечания */
+        .note-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .note-box strong { color: #d97706; }
+
+        .danger-box {
+            background: #fef2f2;
+            border-left: 5px solid var(--danger);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .danger-box strong { color: #dc2626; }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 5px solid var(--success);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success-box strong { color: #16a34a; }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: left;
+        }
+        th { background-color: #f1f5f9; color: var(--primary); }
+        td code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }
+	/* --- Кнопка "На главную" --- */
+.back-btn {
+    position: fixed; /* Фиксированная позиция */
+    top: 20px;
+    left: 20px;
+    z-index: 9999; /* Поверх всех элементов */
+    
+    /* Стеклянный стиль */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Оформление текста */
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.back-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+/* Дополнительный класс для выделения класса */
+        .grade-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body>
+<!-- Кнопка возврата на главную -->
+<a href="index.html" class="back-btn">
+    <span>&larr;</span> На главную
+</a>
+<div class="container">
+    <header>
+	<div class="grade-badge">Информатика • 8 класс</div>
+        <h1>Строки (Strings)</h1>
+        <p>Работа с текстовой информацией</p>
+    </header>
+
+    <!-- 1. Введение -->
+    <div class="theory-card">
+        <h2>1. Что такое строка?</h2>
+        <p><strong>Строка (str)</strong> — это тип данных, представляющий собой последовательность символов. Строки используются для хранения текстовой информации.</p>
+        
+        <div class="note-box">
+            <strong>Определение:</strong> Строка — это упорядоченная неизменяемая последовательность символов, заключенная в кавычки.
+        </div>
+
+        <h3>Создание строк</h3>
+        <p>Строки в Python заключаются в одинарные (<code>' '</code>) или двойные (<code>" "</code>) кавычки. Разницы нет.</p>
+        <pre><code class="language-python">s1 = "Привет, мир!"
+s2 = 'Python'
+s3 = "" # Пустая строка</code></pre>
+    </div>
+
+    <!-- 2. Операции со строками -->
+    <div class="theory-card">
+        <h2>2. Операции со строками</h2>
+        
+        <h3>Конкатенация (склеивание)</h3>
+        <p>Оператор <code>+</code> объединяет две строки в одну.</p>
+        <pre><code class="language-python">first = "Hello"
+last = "World"
+full = first + " " + last
+print(full) # Вывод: Hello World</code></pre>
+
+        <h3>Дублирование (умножение)</h3>
+        <p>Оператор <code>*</code> повторяет строку указанное количество раз.</p>
+        <pre><code class="language-python">print("=" * 10)
+# Вывод: ==========</code></pre>
+
+        <h3>Длина строки</h3>
+        <p>Функция <code>len()</code> возвращает количество символов в строке.</p>
+        <pre><code class="language-python">s = "Python"
+print(len(s)) # Вывод: 6</code></pre>
+    </div>
+
+    <!-- 3. Индексация -->
+    <div class="theory-card">
+        <h2>3. Индексация символов</h2>
+        <p>К каждому символу строки можно обратиться по его номеру (индексу). <strong>Индексация начинается с 0.</strong></p>
+        <p>Также можно использовать отрицательные индексы для отсчета с конца (-1 — последний символ).</p>
+
+        <pre><code class="language-python">s = "PYTHON"
+# Индексы:  0 1 2 3 4 5
+# Обратные:-6-5-4-3-2-1
+
+print(s[0])  # P (первый символ)
+print(s[5])  # N (последний по порядку)
+print(s[-1]) # N (последний с конца)</code></pre>
+
+        <div class="danger-box">
+            <strong>Важно:</strong> Попытка обратиться к несуществующему индексу вызовет ошибку <code>IndexError</code>.
+        </div>
+    </div>
+
+    <!-- 4. Срезы -->
+    <div class="theory-card">
+        <h2>4. Срезы (Slices)</h2>
+        <p><strong>Срез</strong> позволяет получить часть строки (подстроку).</p>
+        
+        <h3>Синтаксис среза:</h3>
+        <pre><code class="language-python">s[начало:конец:шаг]</code></pre>
+        <ul>
+            <li><strong>начало</strong> — индекс, с которого начинаем (включительно).</li>
+            <li><strong>конец</strong> — индекс, на котором заканчиваем (не включительно!).</li>
+            <li><strong>шаг</strong> — через сколько символов брать.</li>
+        </ul>
+
+        <h3>Примеры:</h3>
+        <pre><code class="language-python">s = "PROGRAMMING"
+
+print(s[0:3])   # PRO (символы с 0 по 2)
+print(s[3:7])   # GRAM
+print(s[:5])    # PROGR (от начала до 4)
+print(s[5:])    # AMMING (с 5 до конца)
+print(s[-3:])   # ING (последние 3 символа)
+
+# Шаг
+print(s[::2])   # PORMIG (каждый второй символ)
+print(s[::-1])  # GNIMMARGORP (строка наоборот)</code></pre>
+    </div>
+
+    <!-- 5. Неизменяемость -->
+    <div class="theory-card">
+        <h2>5. Неизменяемость строк</h2>
+        <p>В Python строки являются <strong>неизменяемыми</strong> (immutable). Это значит, что после создания строки вы не можете изменить в ней отдельный символ.</p>
+
+        <div class="danger-box">
+            <strong>Ошибка:</strong>
+            <pre><code class="language-python">s = "Кот"
+s[0] = "Б" # TypeError: 'str' object does not support item assignment</code></pre>
+        </div>
+
+        <h3>Как тогда изменить строку?</h3>
+        <p>Нужно создать новую строку на основе старой.</p>
+        <pre><code class="language-python">s = "Кот"
+s = "Б" + s[1:] # Создаем новую строку: "Б" + "от"
+print(s) # Вывод: Бот</code></pre>
+    </div>
+
+    <!-- 6. Основные методы -->
+    <div class="theory-card">
+        <h2>6. Основные методы строк</h2>
+        <p>Методы — это функции, которые "прикреплены" к объекту и вызываются через точку.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                    <th>Пример</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.upper()</code></td>
+                    <td>Все буквы в верхний регистр (ПРОПИСНЫЕ).</td>
+                    <td><code>"hi".upper()</code> → <code>"HI"</code></td>
+                </tr>
+                <tr>
+                    <td><code>.lower()</code></td>
+                    <td>Все буквы в нижний регистр (строчные).</td>
+                    <td><code>"HI".lower()</code> → <code>"hi"</code></td>
+                </tr>
+                <tr>
+                    <td><code>.replace(a, b)</code></td>
+                    <td>Заменяет все вхождения подстроки a на b.</td>
+                    <td><code>"ball".replace("l", "t")</code> → <code>"batt"</code></td>
+                </tr>
+                <tr>
+                    <td><code>.strip()</code></td>
+                    <td>Удаляет пробелы в начале и конце строки.</td>
+                    <td><code>" hi ".strip()</code> → <code>"hi"</code></td>
+                </tr>
+                <tr>
+                    <td><code>.split(sep)</code></td>
+                    <td>Разбивает строку на список по разделителю.</td>
+                    <td><code>"a b c".split()</code> → <code>['a', 'b', 'c']</code></td>
+                </tr>
+                <tr>
+                    <td><code>.find(s)</code></td>
+                    <td>Возвращает индекс первого вхождения s (или -1).</td>
+                    <td><code>"apple".find("p")</code> → <code>1</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 7. Ввод и F-строки -->
+    <div class="theory-card">
+        <h2>7. Ввод и форматирование</h2>
+        
+        <h3>Функция input() всегда возвращает строку!</h3>
+        <p>Даже если вы введете число, Python воспримет его как текст.</p>
+        <pre><code class="language-python">x = input("Введите число: ") # Ввели 5
+# x сейчас это строка "5"
+x = int(x) # Преобразовали в число 5</code></pre>
+
+        <h3>F-строки (форматирование)</h3>
+        <p>Удобный способ вставить переменные в текст. Буква <code>f</code> перед кавычками.</p>
+        <pre><code class="language-python">name = "Анна"
+age = 17
+print(f"Меня зовут {name}, мне {age} лет.")</code></pre>
+    </div>
+
+</div>
+<center>
+<p> МКОУ Северная средняя школа<br>Ятис В. В.<br>2026 г.</p>
+</center>
+</body>
+</html>
